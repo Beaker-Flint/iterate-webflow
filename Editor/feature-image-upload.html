@@ -1,0 +1,31 @@
+<script>
+
+  // Retrieve POST
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const guideID = urlParams.get('id')
+
+  document.getElementById('feature_image_id').value = guideID;
+
+  document.getElementById('dynamic_close_button').href = '/editor/edit?id=' + guideID;
+
+</script>
+
+
+
+
+  <script>
+
+
+    // Feature Image Upload
+    var featureImageForm = document.getElementById("feature_image_form");
+
+    document.getElementById("dynamic-image-form-submit").addEventListener("click", function () {
+
+       featureImageForm.submit();
+
+    });
+
+
+  </script>

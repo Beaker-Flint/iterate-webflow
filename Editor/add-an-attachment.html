@@ -1,0 +1,105 @@
+<script>
+
+    // Retrieve POST
+  
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const guideID = urlParams.get('guideID');
+  
+  
+    document.getElementById('dynamic_close_button').href = '/editor/edit?id=' + guideID;
+  
+    var search_button = document.getElementById('search_button');
+    search_button.onclick = function() {search();};
+  
+     // Key Word Search
+     function search(){
+  
+       var search_keywords = document.getElementById('search_keywords').value;
+  
+       const searchHttpRequest = new XMLHttpRequest();
+       const searchurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/search/guides-by-keyword?keywords=' + search_keywords;
+       searchHttpRequest.open("GET", searchurl);
+       searchHttpRequest.send();
+  
+       searchHttpRequest.onreadystatechange = (e) => {
+         if (searchHttpRequest.readyState === 4) {
+            const res = JSON.parse(searchHttpRequest.responseText);
+            displaySearchResults(res);
+         }
+  
+  
+       }
+     }
+  
+     function displaySearchResults(guide){
+  
+       console.log(guide);
+  
+       const template_grid_steps_wrapper = document.getElementById("template_results_wrapper");
+  
+       guide.forEach(item => {
+  
+  
+             const style = document.getElementById('result_blueprint');
+             const card = style.cloneNode(true);
+             card.setAttribute('id', '');
+             card.classList.remove("hide");
+             card.getElementsByClassName('collection-name')[0].innerHTML = item.name;
+             card.getElementsByClassName('collection-sub-head')[0].innerHTML = item.sub_heading;
+             card.getElementsByClassName('add_guide_button')[0].onclick = function() {
+  
+               // Add to Collection
+               attachItemToGuide(item.id)
+  
+             };
+  
+  
+             // Place the card into the div "Cards-Container"
+             template_grid_steps_wrapper.appendChild(card);
+  
+       });
+  
+  
+     }
+  
+     // Key Word Search
+     function attachItemToGuide(itemID){
+  
+       console.log(itemID);
+  
+       const addHttpRequest = new XMLHttpRequest();
+       const url='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/attach-guide/associate-one-guide-to-another?guide_id=' + guideID + '&guide_id_to_add=' + itemID;
+       addHttpRequest.open("POST", url);
+       addHttpRequest.send();
+  
+       addHttpRequest.onreadystatechange = (e) => {
+         if (addHttpRequest.readyState === 4) {
+            const res = JSON.parse(addHttpRequest.responseText);
+            window.location.href = "/editor/edit?id=" + guideID;
+         }
+  
+  
+       }
+     }
+  
+  
+     // Override Webflow's Default Form Logic
+     var Webflow = Webflow || [];
+     Webflow.push(function() {
+  
+      //unbind webflow form handling
+      $(document).off('submit');
+  
+      //new form handling
+      $('form').submit(function(evt) {
+  
+        evt.preventDefault();
+  
+        search();
+  
+      });
+     });
+  
+    </script>
+  

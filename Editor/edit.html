@@ -131,7 +131,7 @@
 
             // END Display Each Step
 
-          } else if(data.type == 'collection'){
+          }else if(data.type == 'collection'){
 
               document.getElementById('collection_controls').style.display = 'block';
 
@@ -174,9 +174,46 @@
 
               });
 
-              // END Display Each Step
+              // END Display Each Collection
 
             }
+
+            // Display Attached Guides 
+            // Loop Through & Display Each Attachement
+              const attachment_controls = document.getElementById("attachment_controls");
+
+              data.related.forEach(item => {
+
+                    console.log(item);
+
+                    // const style = document.getElementById('item_blueprint');
+                    // const card = style.cloneNode(true);
+                    // card.setAttribute('id', '');
+                    // card.classList.remove("hide");
+
+                    // card.getElementsByClassName('item_type')[0].innerHTML = "Step "+ item._item_details.type;
+                    // card.getElementsByClassName('item_name')[0].innerHTML = item._item_details.name;
+                    // card.getElementsByClassName('item_edit_button')[0].href = "/editor/add-and-edit-a-collection?new=false&collectionID="+item.id+"&guideID="+guideID;
+
+                    // step_delete = card.getElementsByClassName('item_delete_button')[0];
+                    // step_delete.onclick = function() {
+
+                    //   console.log(item.id);
+                      // const delateHttp = new XMLHttpRequest();
+                      // const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/remove/' + item.id;
+                      // delateHttp.open("DELETE", delateurl);
+                      // delateHttp.send();
+
+                      // delateHttp.onreadystatechange = (e) => {
+                      //   console.log(delateHttp.responseText)
+                      //     location.reload();
+                      // }
+
+              }
+
+                    // Place the card into the div "Cards-Container"
+                    //attachment_controls.appendChild(card);
+              
 
         } else {
             console.log('error')

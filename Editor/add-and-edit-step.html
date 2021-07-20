@@ -1,0 +1,160 @@
+<script>
+
+  // Retrieve POST
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const guideID = urlParams.get('guideID');
+  const newStep = urlParams.get('new');
+  const stepID = urlParams.get('stepID');
+
+  if(newStep != "true"){
+
+    // search for the existing step
+    // Create a request variable and assign a new XMLHttpRequest object to it.
+    var request = new XMLHttpRequest()
+    let retrieveUrl = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/'+ stepID);
+
+
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', retrieveUrl.toString(), true)
+
+    request.onload = function() {
+
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+
+        if (request.status >= 200 && request.status < 400) {
+
+          const setDefaultFieldName = document.getElementById('dynamic_input_name');
+          setDefaultFieldName.innerHTML =  data.name;
+
+          const setDefaultFieldYoutubeidDescription = document.getElementById('dynamic_input_videolink');
+          setDefaultFieldYoutubeidDescription.innerHTML = data.video_link;
+
+          const setDefaultFieldBodyContent = document.getElementById('dynamic_input_body');
+          setDefaultFieldBodyContent.innerHTML = data.body_content;
+
+
+        } else {
+            console.log('error')
+        }
+
+    }
+
+    // Send request
+    request.send()
+
+
+  }
+
+    document.getElementById('dynamic_close_button').href = '/editor/edit?id=' + guideID;
+
+</script>
+
+
+<script>
+
+
+  // Set up the name field
+  tinymce.init({
+  selector: '.dynamic-text-input',
+  inline: true,
+  menubar: false,
+  toolbar: ''
+  });
+
+
+  tinymce.init({
+    selector: '.dynamic-longtext-input',
+    images_upload_handler: example_image_upload_handler,
+    plugins: [
+      'advlist autolink link image lists charmap preview hr anchor pagebreak',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'table emoticons template help powerpaste quickbars'
+    ],
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+      'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+      'forecolor backcolor emoticons | help',
+    menubar: false,
+    inline: true
+  });
+
+
+
+
+
+ </script>
+
+  <script>
+
+    function updateStep(){
+
+      // Get the form contents
+      var field_name = tinymce.get("dynamic_input_name").getContent();
+      var serialized_field_name = field_name.replace(/(<([^>]+)>)/gi, "");
+
+      var field_youtubeid_description = tinymce.get("dynamic_input_videolink").getContent();
+      var serialized_field_youtubeid_description = field_youtubeid_description.replace(/(<([^>]+)>)/gi, "");
+
+      var field_body_content = tinymce.get("dynamic_input_body").getContent();
+      var serialized_field_body_content = tinymce.util.JSON.serialize(field_body_content);
+
+      var url = "https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/create-step-and-append";
+
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url);
+
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+         if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+            window.location.href = "/editor/edit?id=" + guideID;
+         }};
+
+
+
+      var data = `{
+        "guide_id": `+guideID+`,
+        "step_name": "`+serialized_field_name+`",
+        "video_link": "`+serialized_field_youtubeid_description+`",
+        "step_body_content": `+serialized_field_body_content+`,
+        "step_id": `+stepID+`
+      }`;
+
+
+      console.log(data);
+
+      xhr.send(data);
+
+
+    }
+
+  // var Webflow = Webflow || [];
+  // Webflow.push(function() {
+
+   // unbind webflow form handling
+   // $(document).off('submit');
+
+   // new form handling
+   // $('form').submit(function(evt) {
+   //
+   //   evt.preventDefault();
+   //
+   //   tinymce.activeEditor.uploadImages(function(success) {
+   //       updatePost();
+   //   });
+   //
+   // });
+  // });
+
+
+  document.getElementById("dynamic_save_button").addEventListener("click", function () {
+     updateStep();
+  });
+
+  </script>

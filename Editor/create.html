@@ -1,0 +1,71 @@
+
+  <script>
+
+    tinymce.init({
+    selector: '#formpostname',
+    inline: true,
+    placeholder: "e.g. Creating an effective hybrid team",
+    menubar: false,
+    toolbar: ''
+    });
+
+
+
+   </script>
+
+    <script>
+
+    var Webflow = Webflow || [];
+    Webflow.push(function() {
+
+     // unbind webflow form handling
+     $(document).off('submit');
+
+     // new form handling
+     $('form').submit(function(evt) {
+       evt.preventDefault();
+
+       // Get the form contents
+       var postName = tinymce.get("formpostname").getContent();
+       postName = postName.replace(/(<([^>]+)>)/gi, "");
+
+       // Get member stack id
+       memberID = document.getElementById('memberStackID');
+       memberID = memberID.innerHTML;
+
+      let contentType = document.querySelector('input[name="Type"]:checked').value;
+
+       // End Point
+       var url = "https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/create";
+
+
+       var xhr = new XMLHttpRequest();
+       xhr.open("POST", url);
+
+       xhr.setRequestHeader("Accept", "application/json");
+       xhr.setRequestHeader("Content-Type", "application/json");
+
+       xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+             console.log(xhr.status);
+             url_id = JSON.parse(xhr.responseText);
+             window.location.href = "/editor/edit?id=" + url_id;
+          }};
+
+
+
+       var data = `{
+         "name": "`+postName+`",
+         "author_id": "`+memberID+`",
+         "type": "`+contentType+`"
+       }`;
+
+
+
+
+    xhr.send(data);
+
+
+     });
+    });
+    </script>
