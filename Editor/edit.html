@@ -147,7 +147,7 @@
                     card.setAttribute('id', '');
                     card.classList.remove("hide");
 
-                    card.getElementsByClassName('item_type')[0].innerHTML = "Step "+ item._item_details.type;
+                    card.getElementsByClassName('item_type')[0].innerHTML = item._item_details.type;
                     card.getElementsByClassName('item_name')[0].innerHTML = item._item_details.name;
                     card.getElementsByClassName('item_edit_button')[0].href = "/editor/add-and-edit-a-collection?new=false&collectionID="+item.id+"&guideID="+guideID;
 
@@ -191,8 +191,8 @@
                     card.setAttribute('id', '');
                     card.classList.remove("hide");
 
-                    card.getElementsByClassName('attachment_type')[0].innerHTML = "Step "+ item._item_details.type;
-                    card.getElementsByClassName('attachment_name')[0].innerHTML = item._item_details.name;
+                    card.getElementsByClassName('attachment_type')[0].innerHTML = item.type;
+                    card.getElementsByClassName('attachment_name')[0].innerHTML = item.name;
                     
                     step_delete = card.getElementsByClassName('attachment_delete_button')[0];
                     step_delete.onclick = function() {
