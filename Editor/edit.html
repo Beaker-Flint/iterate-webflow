@@ -198,13 +198,13 @@
                     step_delete.onclick = function() {
 
                       console.log(item.id);
-                      const delateHttp = new XMLHttpRequest();
-                      const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/attach-guide/unattach-guide?guide_id=' + guideID + '&guide_id_to_remove=' + item.id;
-                      delateHttp.open("DELETE", delateurl);
-                      delateHttp.send();
+                      const deleteAttachementHttp = new XMLHttpRequest();
+                      const deleteAttachementurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/attach-guide/unattach-guide?guide_id=' + guideID + '&guide_id_to_remove=' + item.id;
+                      deleteAttachementHttp.open("DELETE", deleteAttachementurl);
+                      deleteAttachementHttp.send();
 
                       delateHttp.onreadystatechange = (e) => {
-                        console.log(delateHttp.responseText)
+                        console.log(deleteAttachementHttp.responseText)
                           // location.reload();
                       }
 
