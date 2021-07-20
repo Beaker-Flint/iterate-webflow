@@ -1,0 +1,264 @@
+  <script>
+
+    // Retrieve POST
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const guideID = urlParams.get('id');
+
+    // initiate tiny.cloud 
+
+    // Text Boxes
+    tinymce.init({
+    selector: '.dynamic-text-input',
+    inline: true,
+    menubar: false,
+    toolbar: ''
+    });
+
+
+
+    // Rich Text Boxes
+    tinymce.init({
+      selector: '.dynamic-longtext-input',
+      images_upload_handler: example_image_upload_handler,
+      plugins: [
+        'advlist autolink link image lists charmap preview hr anchor pagebreak',
+        'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+        'table emoticons template help powerpaste quickbars'
+      ],
+      toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
+        'bullist numlist outdent indent | link image | print preview media fullpage | ' +
+        'forecolor backcolor emoticons | help',
+      menubar: false,
+      inline: true
+    });
+
+
+
+
+    // Create a request variable and assign a new XMLHttpRequest object to it.
+    var request = new XMLHttpRequest()
+    let retrieveGuideUrl = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/guide/'+ guideID);
+
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', retrieveGuideUrl.toString(), true)
+
+    request.onload = function() {
+
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+
+        if (request.status >= 200 && request.status < 400) {
+
+          const setDefaultFieldName = document.getElementById('dynamic_input_name');
+          setDefaultFieldName.innerHTML =  data.name;
+
+          const setDefaultFieldSubHeading = document.getElementById('dynamic_input_subheading');
+          setDefaultFieldSubHeading.innerHTML = data.sub_heading;
+
+          const setDefaultFieldSEODescription = document.getElementById('dynamic_input_seodescription');
+          setDefaultFieldSEODescription.innerHTML = data.seo_description;
+
+          const setDefaultFieldYoutubeidDescription = document.getElementById('dynamic_input_videolink');
+          setDefaultFieldYoutubeidDescription.innerHTML = data.youtube_id;
+
+          document.getElementById("dynamic_status").value = data.status;
+
+          const setDefaultFieldBodyContent = document.getElementById('dynamic_input_body');
+          setDefaultFieldBodyContent.innerHTML = data.body_content;
+
+          // Update the image here
+          if(data.feature_image){
+             dynamic_feature_image = document.getElementById('dynamic_feature_image');
+             dynamic_feature_image.src = data.feature_image.url;
+             dynamic_feature_image.srcset = data.feature_image.url;
+          }else{
+            console.log('no image');
+          }
+
+          // Define Dynamic Links
+          document.getElementById('dynamic_feature_image_link').href = "/editor/upload-feature-image?id=" + data.id;
+          document.getElementById('dynamic_add_step').href = "/editor/add-and-edit-step?new=true&stepID=0&guideID=" + data.id;
+          document.getElementById('dynamic_add_collection').href = "/editor/add-and-edit-a-collection?new=true&collectionID=0&guideID=" + data.id;
+          document.getElementById('dynamic_add_attachment').href = "/editor/add-an-attachment?guideID=" + data.id;
+          document.getElementById('dynamic_close_button').href = "/tools/" + data.slug;
+
+
+          // Show Extra Controls Based on Type
+          if(data.type == 'step-by-step'){
+
+            document.getElementById('step_by_step_controls').style.display = 'block';
+
+            // START Loop Through & Display Each Step
+            // Display Tools
+            const template_grid_steps_wrapper = document.getElementById("template_grid_steps_wrapper");
+            data._steps.forEach(item => {
+
+                  console.log(item.id);
+
+                  const style = document.getElementById('step_blueprint')
+                  const card = style.cloneNode(true)
+                  card.setAttribute('id', '');
+                  card.classList.remove("hide");
+
+                  card.getElementsByClassName('step_number')[0].innerHTML = "Step "+item.step_number;
+                  card.getElementsByClassName('step_name')[0].innerHTML = item.name;
+                  card.getElementsByClassName('step_edit_button')[0].href = "/editor/add-and-edit-step?new=false&stepID="+item.id+"&guideID="+guideID;
+
+                  step_delete = card.getElementsByClassName('step_delete')[0];
+                  step_delete.onclick = function() {
+
+                    console.log(item.id);
+                    const delateHttp = new XMLHttpRequest();
+                    const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/remove/' + item.id;
+                    delateHttp.open("DELETE", delateurl);
+                    delateHttp.send();
+
+                    delateHttp.onreadystatechange = (e) => {
+                      console.log(delateHttp.responseText)
+                        location.reload();
+                    }
+
+                   };
+
+                  // Place the card into the div "Cards-Container"
+                  template_grid_steps_wrapper.appendChild(card);
+
+
+
+            });
+
+            // END Display Each Step
+
+          } else if(data.type == 'collection'){
+
+              document.getElementById('collection_controls').style.display = 'block';
+
+              // START Loop Through & Display Each Item
+              const template_grid_collection_wrapper = document.getElementById("template_grid_collection_wrapper");
+
+              data._items.forEach(item => {
+
+                    console.log(item._item_details.name);
+
+                    const style = document.getElementById('item_blueprint')
+                    const card = style.cloneNode(true)
+                    card.setAttribute('id', '');
+                    card.classList.remove("hide");
+
+                    card.getElementsByClassName('item_type')[0].innerHTML = "Step "+ item._item_details.type;
+                    card.getElementsByClassName('item_name')[0].innerHTML = item._item_details.name;
+                    card.getElementsByClassName('item_edit_button')[0].href = "/editor/add-and-edit-a-collection?new=false&collectionID="+item.id+"&guideID="+guideID;
+
+                    step_delete = card.getElementsByClassName('item_delete_button')[0];
+                    step_delete.onclick = function() {
+
+                      console.log(item.id);
+                      // const delateHttp = new XMLHttpRequest();
+                      // const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/remove/' + item.id;
+                      // delateHttp.open("DELETE", delateurl);
+                      // delateHttp.send();
+
+                      // delateHttp.onreadystatechange = (e) => {
+                      //   console.log(delateHttp.responseText)
+                      //     location.reload();
+                      // }
+
+                     };
+
+                    // Place the card into the div "Cards-Container"
+                    template_grid_collection_wrapper.appendChild(card);
+
+
+
+              });
+
+              // END Display Each Step
+
+            }
+
+        } else {
+            console.log('error')
+        }
+
+    }
+
+    // Send request
+    request.send()
+
+  </script>
+
+
+  <script>
+
+
+
+
+
+   </script>
+
+    <script>
+
+      function updatePost(){
+
+        // Get the form contents
+        var field_name = tinymce.get("dynamic_input_name").getContent();
+        var serialized_field_name = field_name.replace(/(<([^>]+)>)/gi, "");
+
+        var field_sub_heading = tinymce.get("dynamic_input_subheading").getContent();
+        var serialized_field_sub_heading = field_sub_heading.replace(/(<([^>]+)>)/gi, "");
+
+        var field_seo_description = tinymce.get("dynamic_input_seodescription").getContent();
+        var serialized_field_seo_description = field_seo_description.replace(/(<([^>]+)>)/gi, "");
+
+        var field_youtubeid_description = tinymce.get("dynamic_input_videolink").getContent();
+        var serialized_field_youtubeid_description = field_youtubeid_description.replace(/(<([^>]+)>)/gi, "");
+
+        var field_body_content = tinymce.get("dynamic_input_body").getContent();
+        var serialized_field_body_content = tinymce.util.JSON.serialize(field_body_content);
+
+        var field_status = document.getElementById("dynamic_status");
+        var field_status = field_status.value;
+
+        var url = "https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/edit-guide";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+           if (xhr.readyState === 4) {
+              console.log(xhr.status);
+              console.log(xhr.responseText);
+              location.reload();
+           }};
+
+
+
+        var data = `{
+          "id": `+guideID+`,
+          "name": "`+serialized_field_name+`",
+          "seo_description": "`+serialized_field_seo_description+`",
+          "sub_heading": "`+serialized_field_sub_heading+`",
+          "status": "`+field_status+`",
+          "youtube_id": "`+serialized_field_youtubeid_description+`",
+          "body_content": `+serialized_field_body_content+`
+        }`;
+
+
+        console.log(data);
+
+        xhr.send(data);
+
+
+      }
+
+
+    document.getElementById("dynamic_save_button").addEventListener("click", function () {
+       updatePost();
+    });
+
+    </script>
