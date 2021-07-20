@@ -180,7 +180,7 @@
 
             // Display Attached Guides 
             // Loop Through & Display Each Attachement
-              const attachment_controls = document.getElementById("attachment_controls");
+              const template_grid_attachment_wrapper = document.getElementById("template_grid_attachment_wrapper");
 
               data.related.forEach(item => {
 
@@ -211,7 +211,7 @@
                     }
 
                        // Place the card into the div "Cards-Container"
-                      attachment_controls.appendChild(card);
+                       template_grid_attachment_wrapper.appendChild(card);
                   });
 
 
