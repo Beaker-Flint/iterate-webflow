@@ -186,19 +186,18 @@
 
                     console.log(item);
 
-                    // const style = document.getElementById('item_blueprint');
-                    // const card = style.cloneNode(true);
-                    // card.setAttribute('id', '');
-                    // card.classList.remove("hide");
+                    const style = document.getElementById('attachment_blueprint');
+                    const card = style.cloneNode(true);
+                    card.setAttribute('id', '');
+                    card.classList.remove("hide");
 
-                    // card.getElementsByClassName('item_type')[0].innerHTML = "Step "+ item._item_details.type;
-                    // card.getElementsByClassName('item_name')[0].innerHTML = item._item_details.name;
-                    // card.getElementsByClassName('item_edit_button')[0].href = "/editor/add-and-edit-a-collection?new=false&collectionID="+item.id+"&guideID="+guideID;
+                    card.getElementsByClassName('attachment_type')[0].innerHTML = "Step "+ item._item_details.type;
+                    card.getElementsByClassName('attachment_name')[0].innerHTML = item._item_details.name;
+                    
+                    step_delete = card.getElementsByClassName('attachment_delete_button')[0];
+                    step_delete.onclick = function() {
 
-                    // step_delete = card.getElementsByClassName('item_delete_button')[0];
-                    // step_delete.onclick = function() {
-
-                    //   console.log(item.id);
+                      console.log(item.id);
                       // const delateHttp = new XMLHttpRequest();
                       // const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/remove/' + item.id;
                       // delateHttp.open("DELETE", delateurl);
@@ -209,10 +208,12 @@
                       //     location.reload();
                       // }
 
-              });
+                    }
+                    
+                  });
 
                     // Place the card into the div "Cards-Container"
-                    //attachment_controls.appendChild(card);
+                    attachment_controls.appendChild(card);
               
 
         } else {
