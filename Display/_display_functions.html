@@ -1,0 +1,101 @@
+<script>
+
+function displayToolList(tool){
+            var template_grid_tools_wrapper = document.getElementById("template_grid_tools_wrapper");
+            const style = document.getElementById('tool_blueprint')
+              const card = style.cloneNode(true)
+              card.setAttribute('id', '');
+              card.classList.remove("hide");
+    
+              card.href = "/tools/" + tool.slug;
+    
+                name = card.getElementsByTagName('h3')[0].innerHTML = tool.name;
+    
+              //Image
+              // var playlistCard_thumbnailImage = card.getElementsByClassName('playlistcard-thumbnailimage')[0];
+              // playlistCard_thumbnailImage.src = item[0]._concept.concept_image.url;
+    
+    
+              // Place the card into the div "Cards-Container"
+              template_grid_tools_wrapper.appendChild(card);
+        }
+
+        function displayCollectionList(collection){
+
+            const template_grid_collection_wrapper = document.getElementById("template_grid_collection_wrapper");
+ 
+                const style = document.getElementById('collection_blueprint');
+                const card = style.cloneNode(true)
+                card.setAttribute('id', '');
+                card.classList.remove("hide");
+    
+                card.getElementsByTagName('a')[0].href = "/tools/" + collection.slug;
+    
+                //Name
+                card.getElementsByTagName('h2')[0].innerHTML = collection.name;
+                card.getElementsByTagName('p')[0].innerHTML = collection.sub_heading;
+    
+                if(collection._show_author.profile_photo){
+                  image6 = card.getElementsByClassName('image-6')[0];
+                  image6.src = collection._show_author.profile_photo.url;
+                  image6.srcset = collection._show_author.profile_photo.url;
+                }
+    
+                // Place the card into the div "Cards-Container"
+                template_grid_collection_wrapper.appendChild(card);
+
+        }
+
+        function displayStepByStepList(StepByStep){
+            const template_grid_stepbystep_wrapper = document.getElementById("template_grid_stepbystep_wrapper");
+           
+              const style = document.getElementById('stepbystep_blueprint')
+              const card = style.cloneNode(true)
+              card.setAttribute('id', '');
+              card.classList.remove("hide");
+    
+              card.href = "/tools/" + StepByStep.slug;
+    
+              //Name
+              card.getElementsByTagName('h3')[0].innerHTML = StepByStep.name;
+              card.getElementsByTagName('p')[0].innerHTML = StepByStep.sub_heading;
+    
+              if(StepByStep._show_author.profile_photo){
+                image5 = card.getElementsByClassName('image-5')[0];
+                image5.src = StepByStep._show_author.profile_photo.url;
+                image5.srcset = StepByStep._show_author.profile_photo.url;
+              }
+    
+    
+              // Place the card into the div "Cards-Container"
+              template_grid_stepbystep_wrapper.appendChild(card);
+        
+    
+
+        }
+    
+        // Display Lists 
+        function displayAllLists(guideList){
+
+            console.log(guideList);
+            guideList.forEach(item => {
+        
+            if(item[0].type == "tool"){
+                displayToolList(item[0]);
+            }
+
+            if(item[0].type == "collection"){
+                displayCollectionList(item[0]);
+            }
+
+            if(item[0].type == "step-by-step"){
+                displayStepByStepList(item[0]);
+            }
+        
+        
+            });
+
+        }
+
+
+</script>

@@ -26,10 +26,11 @@
       document.getElementsByClassName("dynamic_body_content").forEach(function(item){item.innerHTML = data.body_content});
       document.getElementsByClassName("dynamic_author_name").forEach(function(item){item.innerHTML = data._author.member_name});
   
-      // if(data.feature_image){
-      //   dynamic_feature_image = document.getElementsByClassName('dynamic_feature_image')[0];
-      //   dynamic_feature_image.src = data.feature_image.url;
-      // }
+      if(data.feature_image){
+        dynamic_feature_image = document.getElementsByClassName('dynamic_feature_image')[0];
+        dynamic_feature_image.src = data.feature_image.url;
+        dynamic_feature_image.classList.remove("hide"); 
+      }
   
   
       // Configure Edit Controls

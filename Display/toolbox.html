@@ -1,0 +1,45 @@
+<script>
+
+    // Create a request variable and assign a new XMLHttpRequest object to it.
+    var request = new XMLHttpRequest()
+    let toolboxURL = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/member-by-memberstack-id?memberstack_id=' + localStorage.getItem("session_members_id"));
+    
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', toolboxURL.toString(), true)
+    
+    request.onload = function() {
+    
+      // Begin accessing JSON data here
+      var data = JSON.parse(this.response)
+    
+      if (request.status >= 200 && request.status < 400) {
+    
+        // ######################################################
+        // Display Top Level Content
+        document.getElementsByClassName("dynamic_name").forEach(function(item){item.innerHTML = data.member_name});
+        document.getElementsByClassName("dynamic_job_title").forEach(function(item){item.innerHTML = data.job_title});
+        // document.getElementsByClassName("dynamic_body_content").forEach(function(item){item.innerHTML = data.body_content});
+
+        if(data.profile_photo){
+          dynamic_profile_photo = document.getElementsByClassName('dynamic_profile_photo')[0];
+          dynamic_profile_photo.src = data.profile_photo.url;
+          dynamic_profile_photo.srcset = data.profile_photo.url;
+        }
+
+        // ######################################################
+        // Display Contents
+        displayAllLists(data.guides);
+    
+    
+    
+      } else {
+          console.log('error')
+      }
+    
+    
+    }
+    
+    // Send request
+    request.send()
+    </script>
+    
