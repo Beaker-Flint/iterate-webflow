@@ -144,15 +144,15 @@
                     step_delete.onclick = function() {
 
                       console.log(item.id);
-                      // const delateHttp = new XMLHttpRequest();
-                      // const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/remove/' + item.id;
-                      // delateHttp.open("DELETE", delateurl);
-                      // delateHttp.send();
+                      const delateHttp = new XMLHttpRequest();
+                      const delateurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/step/remove/' + item.id;
+                      delateHttp.open("DELETE", delateurl);
+                      delateHttp.send();
 
-                      // delateHttp.onreadystatechange = (e) => {
-                      //   console.log(delateHttp.responseText)
-                      //     location.reload();
-                      // }
+                      delateHttp.onreadystatechange = (e) => {
+                        console.log(delateHttp.responseText)
+                          //location.reload();
+                      }
 
                      };
 
