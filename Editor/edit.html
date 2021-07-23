@@ -170,38 +170,42 @@
             // Display Attached Guides 
             // Loop Through & Display Each Attachement
               const template_grid_attachment_wrapper = document.getElementById("template_grid_attachment_wrapper");
+              
+              if(data.related.length !== 0){
 
-              data.related.forEach(item => {
+                data.related.forEach(item => {
 
-                    console.log(item);
+                console.log(item);
 
-                    const style = document.getElementById('attachment_blueprint');
-                    const card = style.cloneNode(true);
-                    card.setAttribute('id', '');
-                    card.classList.remove("hide");
+                const style = document.getElementById('attachment_blueprint');
+                const card = style.cloneNode(true);
+                card.setAttribute('id', '');
+                card.classList.remove("hide");
 
-                    card.getElementsByClassName('attachment_type')[0].innerHTML = item.type;
-                    card.getElementsByClassName('attachment_name')[0].innerHTML = item.name;
-                    
-                    step_delete = card.getElementsByClassName('attachment_delete_button')[0];
-                    step_delete.onclick = function() {
+                card.getElementsByClassName('attachment_type')[0].innerHTML = item.type;
+                card.getElementsByClassName('attachment_name')[0].innerHTML = item.name;
 
-                      console.log(item.id);
-                      const deleteAttachementHttp = new XMLHttpRequest();
-                      const deleteAttachementurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/attach-guide/unattach-guide?guide_id=' + guideID + '&guide_id_to_remove=' + item.id;
-                      deleteAttachementHttp.open("POST", deleteAttachementurl);
-                      deleteAttachementHttp.send();
+                step_delete = card.getElementsByClassName('attachment_delete_button')[0];
+                step_delete.onclick = function() {
 
-                      delateHttp.onreadystatechange = (e) => {
-                        console.log(deleteAttachementHttp.responseText)
-                           location.reload();
-                      }
+                  console.log(item.id);
+                  const deleteAttachementHttp = new XMLHttpRequest();
+                  const deleteAttachementurl='https://xbjy-hku4-k4fv.n7.xano.io/api:NtjR1xDP/attach-guide/unattach-guide?guide_id=' + guideID + '&guide_id_to_remove=' + item.id;
+                  deleteAttachementHttp.open("POST", deleteAttachementurl);
+                  deleteAttachementHttp.send();
 
-                    }
+                  delateHttp.onreadystatechange = (e) => {
+                    console.log(deleteAttachementHttp.responseText)
+                      location.reload();
+                  }
 
-                       // Place the card into the div "Cards-Container"
-                       template_grid_attachment_wrapper.appendChild(card);
-                  });
+                }
+
+                  // Place the card into the div "Cards-Container"
+                  template_grid_attachment_wrapper.appendChild(card);
+                });
+              }
+              
 
 
               
