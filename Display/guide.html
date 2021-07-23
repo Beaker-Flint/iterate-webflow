@@ -19,6 +19,30 @@
       
       console.log(data);
 
+      displayAllLists2(data.related);
+
+      function displayAllLists2(guideList){
+
+            console.log(guideList);
+            guideList.forEach(item => {
+        
+            if(item.type == "tool"){
+                displayToolList(item[0]);
+            }
+
+            if(item.type == "collection"){
+                displayCollectionList(item[0]);
+            }
+
+            if(item.type == "step-by-step"){
+                displayStepByStepList(item[0]);
+            }
+        
+        
+            });
+
+        }
+
       // ######################################################
       // Display Top Level Content
       document.getElementsByClassName("dynamic_name").forEach(function(item){item.innerHTML = data.name});
