@@ -6,17 +6,6 @@
     const urlParams = new URLSearchParams(queryString);
     const guideID = urlParams.get('id');
 
-    // initiate tiny.cloud 
-
-    // Text Boxes
-    tinymce.init({
-    selector: '.dynamic-text-input',
-    inline: true,
-    menubar: false,
-    toolbar: ''
-    });
-
-
 
     // Rich Text Boxes
     tinymce.init({
@@ -52,16 +41,16 @@
         if (request.status >= 200 && request.status < 400) {
 
           const setDefaultFieldName = document.getElementById('dynamic_input_name');
-          setDefaultFieldName.innerHTML =  data.name;
+          setDefaultFieldName.value =  data.name;
 
           const setDefaultFieldSubHeading = document.getElementById('dynamic_input_subheading');
-          setDefaultFieldSubHeading.innerHTML = data.sub_heading;
+          setDefaultFieldSubHeading.value = data.sub_heading;
 
           const setDefaultFieldSEODescription = document.getElementById('dynamic_input_seodescription');
-          setDefaultFieldSEODescription.innerHTML = data.seo_description;
+          setDefaultFieldSEODescription.value = data.seo_description;
 
           const setDefaultFieldYoutubeidDescription = document.getElementById('dynamic_input_videolink');
-          setDefaultFieldYoutubeidDescription.innerHTML = data.youtube_id;
+          setDefaultFieldYoutubeidDescription.value = data.youtube_id;
 
           document.getElementById("dynamic_status").value = data.status;
 
@@ -241,17 +230,19 @@
 
       function updatePost(){
 
+
+        
         // Get the form contents
-        var field_name = tinymce.get("dynamic_input_name").getContent();
+        var field_name = document.getElementById("dynamic_input_name").value;
         var serialized_field_name = field_name.replace(/(<([^>]+)>)/gi, "");
 
-        var field_sub_heading = tinymce.get("dynamic_input_subheading").getContent();
+        var field_sub_heading = document.getElementById("dynamic_input_subheading").value;
         var serialized_field_sub_heading = field_sub_heading.replace(/(<([^>]+)>)/gi, "");
 
-        var field_seo_description = tinymce.get("dynamic_input_seodescription").getContent();
+        var field_seo_description = document.getElementById("dynamic_input_seodescription").value;
         var serialized_field_seo_description = field_seo_description.replace(/(<([^>]+)>)/gi, "");
 
-        var field_youtubeid_description = tinymce.get("dynamic_input_videolink").getContent();
+        var field_youtubeid_description = document.getElementById("dynamic_input_videolink").value;
         var serialized_field_youtubeid_description = field_youtubeid_description.replace(/(<([^>]+)>)/gi, "");
 
         var field_body_content = tinymce.get("dynamic_input_body").getContent();

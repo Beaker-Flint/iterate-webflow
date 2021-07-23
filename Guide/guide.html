@@ -1,0 +1,197 @@
+<script>
+
+  var slug = getPageSlug();
+  
+  // Create a request variable and assign a new XMLHttpRequest object to it.
+  var request = new XMLHttpRequest()
+  let playlistUrl = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/guide-via-slug?slug=' + slug);
+
+  // Open a new connection, using the GET request on the URL endpoint
+  request.open('GET', playlistUrl.toString(), true)
+  
+  request.onload = function() {
+  
+  
+    // Begin accessing JSON data here
+    var data = JSON.parse(this.response)
+  
+    if (request.status >= 200 && request.status < 400) {
+      
+      console.log(data);
+
+      // ######################################################
+      // Display Top Level Content
+      document.getElementsByClassName("dynamic_name").forEach(function(item){item.innerHTML = data.name});
+      document.getElementsByClassName("dynamic_sub_heading").forEach(function(item){item.innerHTML = data.sub_heading});
+      document.getElementsByClassName("dynamic_body_content").forEach(function(item){item.innerHTML = data.body_content});
+      document.getElementsByClassName("dynamic_author_name").forEach(function(item){item.innerHTML = data._author.member_name});
+  
+      // if(data.feature_image){
+      //   dynamic_feature_image = document.getElementsByClassName('dynamic_feature_image')[0];
+      //   dynamic_feature_image.src = data.feature_image.url;
+      // }
+  
+  
+      // Configure Edit Controls
+      document.getElementsByClassName("dynamic_edit_button").forEach(function(item){item.href = "/editor/edit?id=" + data.id});
+  
+  
+      // ######################################################
+      
+      switch(data.type) {
+      
+          case "step-by-step":
+            
+            document.getElementsByClassName("dynamic_video_player").forEach(function(item){
+
+              item.innerHTML = '<div style="padding:56.25% 0 0 0;position:relative;width:100%;"><iframe src="https://player.vimeo.com/video/'+data.youtube_id+'?badge=0&autopause=0&player_id=0&app_id=58479/embed" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen frameborder="0" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>';
+            
+            });
+
+            // Select the 2 containers 
+            const template_step_contents_wrapper = document.getElementById("template_step_contents_wrapper");
+            const template_step_anchor_wrapper = document.getElementById("template_step_anchor_wrapper");
+            
+            // Loop through each step
+            data._steps.forEach(item => {
+
+                    var style = document.getElementById('step_contents_blueprint');
+                    var card = style.cloneNode(true);
+                    card.setAttribute('id', 'Step_'+item.step_number);
+                    card.classList.remove("hide");
+                    card.getElementsByClassName('dynamic_step_name')[0].innerHTML = item.name;
+                    card.getElementsByClassName('dynamic-body-content')[0].innerHTML = item.body_content;
+                    template_step_contents_wrapper.appendChild(card);
+
+                    // Anchor 
+                    var style = document.getElementById('step_anchor_blueprint');
+                    var card = style.cloneNode(true);
+                    card.setAttribute('id', '');
+                    card.classList.remove("hide");
+                    card.getElementsByClassName('step-number')[0].innerHTML = 'Step ' + item.step_number;
+                    card.getElementsByClassName('step-name')[0].innerHTML = item.name;
+                    card.href = '#'+'Step_'+item.step_number;
+                    template_step_anchor_wrapper.appendChild(card);
+
+                    });          
+
+          break;
+
+          case "collection":
+            
+            document.getElementsByClassName("dynamic_video_player").forEach(function(item){
+
+              item.innerHTML = '<div style="padding:56.25% 0 0 0;position:relative;width:100%;"><iframe src="https://player.vimeo.com/video/'+data.youtube_id+'?badge=0&autopause=0&player_id=0&app_id=58479/embed" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen frameborder="0" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>';
+            
+            });
+
+            // Select the 2 containers 
+            const collection_item_wrapper = document.getElementById("collection_item_wrapper");
+            
+            // Loop through each step
+            data._items.forEach(item => {
+
+                    var style = document.getElementById('collection_item_blueprint');
+                    var card = style.cloneNode(true);
+                    card.setAttribute('id', '');
+                    card.classList.remove("hide");
+                    card.getElementsByClassName('item-name')[0].innerHTML = item._item_details.name;
+                    card.getElementsByClassName('paragraph-featured')[0].innerHTML = item._item_details.sub_heading;
+                    collection_item_wrapper.appendChild(card);
+
+
+                    });          
+
+          break;
+
+      }
+
+      // ######################################################
+
+
+      // Display Playlist Contents
+  
+      // Loop through each item on the playlist
+      // const playlistCardContainer = document.getElementById("playlistCardContainer");
+      //
+      // data.playlist_contents_id.forEach(item => {
+      //
+      //   // Select the HTML in Webflow and clone it
+      //   const style = document.getElementById('playlistCard')
+      //   const card = style.cloneNode(true)
+      //   card.setAttribute('id', '');
+      //
+      //
+      //   switch(item[0].type) {
+      //
+      //     case "concept":
+      //           // When a card is clicked, navigate to the item page by passing the restaurant id
+      //           card.addEventListener('click', function() {
+      //               document.location.href = "/concepts/" + item[0]._concept[0].slug;
+      //           });
+      //
+      //           // Name
+      //           var playlistCardName = card.getElementsByClassName('playlist-card-name')[0];
+      //           playlistCardName.textContent = item[0]._concept.name;
+      //
+      //           //Image
+      //           var playlistCard_thumbnailImage = card.getElementsByClassName('playlistcard-thumbnailimage')[0];
+      //           playlistCard_thumbnailImage.src = item[0]._concept.concept_image.url;
+      //
+      //           // Description
+      //           var playlistCardDescription = card.getElementsByClassName('playlist-card-description')[0];
+      //           playlistCardDescription.innerHTML = item[0]._concept.full_description;
+      //
+      //       break;
+      //
+      //     case "method":
+      //           // Name
+      //           var playlistCardName = card.getElementsByClassName('playlist-card-name')[0];
+      //           playlistCardName.textContent = item[0]._method.name;
+      //
+      //           //Image
+      //           var playlistCard_thumbnailImage = card.getElementsByClassName('playlistcard-thumbnailimage')[0];
+      //           playlistCard_thumbnailImage.src = item[0]._method.thumbnail.url;
+      //
+      //           // Description
+      //           var playlistCardDescription = card.getElementsByClassName('playlist-card-description')[0];
+      //           playlistCardDescription.innerHTML = item[0]._method.full_description;
+      //       break;
+      
+      //     case "post":
+      //         // Name
+      //         var playlistCardName = card.getElementsByClassName('playlist-card-name')[0];
+      //         playlistCardName.textContent = item[0]._post.name;
+      //
+      //         //Image
+      //         var playlistCard_thumbnailImage = card.getElementsByClassName('playlistcard-thumbnailimage')[0];
+      //         playlistCard_thumbnailImage.src = item[0]._post.post_image.url;
+      //
+      //         // Description
+      //         var playlistCardDescription = card.getElementsByClassName('playlist-card-description')[0];
+      //         playlistCardDescription.innerHTML = item[0]._post.seo_description;
+      //         break;
+      //     default:
+      //       // code block
+      //   }
+      //
+      //   // Remove the 'hide' style so the item is visible on the page
+      //   card.classList.remove("template");
+      //
+      //   // Place the card into the div "Cards-Container"
+      //   playlistCardContainer.appendChild(card);
+      //
+      // })
+  
+  
+  
+    } else {
+        console.log('error')
+    }
+  
+  
+  }
+  
+  // Send request
+  request.send()
+  </script>

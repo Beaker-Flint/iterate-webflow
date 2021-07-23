@@ -1,18 +1,4 @@
 
-  <script>
-
-    tinymce.init({
-    selector: '#formpostname',
-    inline: true,
-    placeholder: "e.g. Creating an effective hybrid team",
-    menubar: false,
-    toolbar: ''
-    });
-
-
-
-   </script>
-
     <script>
 
     var Webflow = Webflow || [];
@@ -26,7 +12,7 @@
        evt.preventDefault();
 
        // Get the form contents
-       var postName = tinymce.get("formpostname").getContent();
+       var postName = document.getElementById("formpostname").value;
        postName = postName.replace(/(<([^>]+)>)/gi, "");
 
        // Get member stack id
@@ -47,9 +33,10 @@
 
        xhr.onreadystatechange = function () {
           if (xhr.readyState === 4) {
-             console.log(xhr.status);
-             url_id = JSON.parse(xhr.responseText);
-             window.location.href = "/editor/edit?id=" + url_id;
+            //console.log(xhr.status);
+            //console.log(xhr.responseText);
+            url_id = JSON.parse(xhr.responseText);
+            window.location.href = "/editor/edit?id=" + url_id;
           }};
 
 
