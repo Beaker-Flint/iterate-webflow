@@ -193,9 +193,10 @@
                   deleteAttachementHttp.open("POST", deleteAttachementurl);
                   deleteAttachementHttp.send();
 
-                  delateHttp.onreadystatechange = (e) => {
+                  deleteAttachementHttp.onreadystatechange = (e) => {
                     
                     location.reload();
+
                   }
 
                 }
