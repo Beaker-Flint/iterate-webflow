@@ -171,7 +171,9 @@
             // Loop Through & Display Each Attachement
               const template_grid_attachment_wrapper = document.getElementById("template_grid_attachment_wrapper");
               
-              if(data.related.length !== 0){
+            console.log(data.related.length);
+
+              if(!data.related.length === 0){
 
                 data.related.forEach(item => {
 
