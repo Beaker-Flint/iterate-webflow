@@ -2,6 +2,7 @@
 
 function displayToolList(tool){
             
+            document.getElementById("tool_list_visibility").classList.remove("hide");
 
             var template_grid_tools_wrapper = document.getElementById("template_grid_tools_wrapper");
             
@@ -53,10 +54,13 @@ function displayCollectionList(collection){
 }
 
 function displayStepByStepList(StepByStep){
-            const template_grid_stepbystep_wrapper = document.getElementById("template_grid_stepbystep_wrapper");
+
+            document.getElementById("stepbystep_list_visibility").classList.remove("hide");
+
+              var template_grid_stepbystep_wrapper = document.getElementById("template_grid_stepbystep_wrapper");
            
-              const style = document.getElementById('stepbystep_blueprint')
-              const card = style.cloneNode(true)
+              var style = document.getElementById('stepbystep_blueprint')
+              var card = style.cloneNode(true)
               card.setAttribute('id', '');
               card.classList.remove("hide");
     
