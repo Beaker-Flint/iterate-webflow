@@ -5,6 +5,7 @@
     const guideID = urlParams.get('id');
     const collectionID = urlParams.get('collectionid');
 
+   
 
     // Create a request variable and assign a new XMLHttpRequest object to it.
     var request = new XMLHttpRequest()
@@ -133,5 +134,8 @@
     
     // Send request
     request.send()
+
+    displayCollectionItemList(collectionID, guideID);
+
     </script>
   
