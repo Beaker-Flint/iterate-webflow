@@ -21,28 +21,6 @@
 
       displayAllLists(data.related);
 
-      function displayAllLists(guideList){
-            
-            guideList.forEach(item => {
-            
-            console.log(item);
-            
-            if(item.type == "tool"){
-                displayToolList(item);
-            }
-
-            if(item.type == "collection"){
-                displayCollectionList(item);
-            }
-
-            if(item.type == "step-by-step"){
-                displayStepByStepList(item);
-            }
-        
-        
-            });
-
-        }
 
       // ######################################################
       // Display Top Level Content
