@@ -79,9 +79,10 @@ function displayStepByStepList(StepByStep){
         // Display Lists 
 function displayAllLists(guideList){
 
-            console.log(guideList);
+
+
             guideList.forEach(item => {
-        
+            console.log(item);
             if(item[0].type == "tool"){
                 displayToolList(item[0]);
             }

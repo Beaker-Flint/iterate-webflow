@@ -19,13 +19,13 @@
       
       console.log(data);
 
-      displayAllListsx(data.related);
+      displayAllLists(data.related);
 
-      function displayAllListsx(guideList){
+      function displayAllLists(guideList){
             
             guideList.forEach(item => {
             
-              console.log(item);
+            console.log(item);
             
             if(item.type == "tool"){
                 displayToolList(item);
