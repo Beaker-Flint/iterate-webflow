@@ -82,17 +82,19 @@ function displayAllLists(guideList){
 
 
             guideList.forEach(item => {
+
             console.log(item);
-            if(item[0].type == "tool"){
-                displayToolList(item[0]);
+
+            if(item.type == "tool"){
+                displayToolList(item);
             }
 
-            if(item[0].type == "collection"){
-                displayCollectionList(item[0]);
+            if(item.type == "collection"){
+                displayCollectionList(item);
             }
 
-            if(item[0].type == "step-by-step"){
-                displayStepByStepList(item[0]);
+            if(item.type == "step-by-step"){
+                displayStepByStepList(item);
             }
         
         
