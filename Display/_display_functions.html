@@ -126,53 +126,5 @@ function displayFeaturedVideo(videoID){
 
 }
 
-function displayCollectionItemList(collectionID, guideID){
-
-        var requestCollectionDetails = new XMLHttpRequest()
-    let collectionDetailsUrl = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/collection_items?guide_id=' + collectionID);
-    // Open a new connection, using the GET request on the URL endpoint
-    requestCollectionDetails.open('GET', collectionDetailsUrl.toString(), true);
-    
-    requestCollectionDetails.onload = function() {
-    
-      // Begin accessing JSON data here
-      var collectiondata = JSON.parse(this.response);
-      
-      if (requestCollectionDetails.status >= 200 && requestCollectionDetails.status < 400) {
-
-
-        // Loop through each collection item
-            let template_collection_items_wrapper = document.getElementById("template_collection_items_wrapper");
-            collectiondata.forEach(item => {
-                        console.log(item)
-                      var style = document.getElementById('collection_item_blueprint');
-                      var card = style.cloneNode(true);
-                      card.setAttribute('id', '');
-                      card.classList.remove("hide");
-                      card.getElementsByClassName('collection_item_label')[0].innerHTML = item._collection_item_details.name;
-                      card.href = '/collection-view?id='+ item.id +'&collectionid=' + collectionID;
-                      
-                      if(item.id == guideID){
-                        card.classList.add('current-item');
-                      }
-
-                      template_collection_items_wrapper.appendChild(card);
-  
-                }); 
-
-
-      } else {
-          //console.log(this.response);
-          console.log('error')
-      }
-    
-    
-    }
-    
-    // Send request
-    requestCollectionDetails.send()
-
-
-    }
 
 </script>
