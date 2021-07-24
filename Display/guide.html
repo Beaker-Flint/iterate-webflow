@@ -34,6 +34,13 @@
         dynamic_feature_image.src = data.feature_image.url;
         dynamic_feature_image.classList.remove("hide"); 
       }
+
+
+      if(data._author.profile_photo){
+
+        author_image = document.getElementsByClassName('author_image')[0];
+        author_image.src = data._author.profile_photo.url;
+      }
   
   
       // Configure Edit Controls
@@ -83,11 +90,8 @@
 
           case "collection":
             
-            document.getElementsByClassName("dynamic_video_player").forEach(function(item){
-
-              item.innerHTML = '<div style="padding:56.25% 0 0 0;position:relative;width:100%;"><iframe src="https://player.vimeo.com/video/'+data.youtube_id+'?badge=0&autopause=0&player_id=0&app_id=58479/embed" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen frameborder="0" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe></div>';
-            
-            });
+           
+            displayFeaturedVideo(data.youtube_id);
 
             // Select the 2 containers 
             const collection_item_wrapper = document.getElementById("collection_item_wrapper");
