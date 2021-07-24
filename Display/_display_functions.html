@@ -126,7 +126,7 @@ function displayFeaturedVideo(videoID){
 
 }
 
-function displayCollectionItemList(collectionID){
+function displayCollectionItemList(collectionID,guideID){
         var requestCollectionDetails = new XMLHttpRequest()
     let collectionDetailsUrl = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/collection_items?guide_id=' + collectionID);
     // Open a new connection, using the GET request on the URL endpoint
