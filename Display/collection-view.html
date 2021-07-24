@@ -1,0 +1,135 @@
+<script>
+    
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const guideID = urlParams.get('id');
+
+    // Create a request variable and assign a new XMLHttpRequest object to it.
+    var request = new XMLHttpRequest()
+    let playlistUrl = new URL('https://xbjy-hku4-k4fv.n7.xano.io/api:k36IYx30/guide/' + guideID);
+  
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', playlistUrl.toString(), true)
+    
+    request.onload = function() {
+    
+    
+      // Begin accessing JSON data here
+      var data = JSON.parse(this.response)
+    
+      if (request.status >= 200 && request.status < 400) {
+        
+        console.log(data);
+  
+        displayAllLists(data.related);
+  
+  
+        // ######################################################
+        // Display Top Level Content
+        document.getElementsByClassName("dynamic_name").forEach(function(item){item.innerHTML = data.name});
+        document.getElementsByClassName("dynamic_sub_heading").forEach(function(item){item.innerHTML = data.sub_heading});
+        document.getElementsByClassName("dynamic_body_content").forEach(function(item){item.innerHTML = data.body_content});
+        document.getElementsByClassName("dynamic_author_name").forEach(function(item){item.innerHTML = data._author.member_name});
+    
+        if(data.feature_image){
+          dynamic_feature_image = document.getElementsByClassName('dynamic_feature_image')[0];
+          dynamic_feature_image.src = data.feature_image.url;
+          dynamic_feature_image.classList.remove("hide"); 
+        }
+  
+  
+        if(data._author.profile_photo){
+  
+          author_image = document.getElementsByClassName('author_image')[0];
+          author_image.src = data._author.profile_photo.url;
+        }
+    
+    
+        // Configure Edit Controls
+        document.getElementsByClassName("dynamic_edit_button").forEach(function(item){item.href = "/editor/edit?id=" + data.id});
+    
+    
+        // ######################################################
+        
+        switch(data.type) {
+        
+            case "step-by-step":
+              
+              displayFeaturedVideo(data.youtube_id);
+  
+              // Select the 2 containers 
+              const template_step_contents_wrapper = document.getElementById("template_step_contents_wrapper");
+              const template_step_anchor_wrapper = document.getElementById("template_step_anchor_wrapper");
+              
+              // Loop through each step
+              data._steps.forEach(item => {
+  
+                      var style = document.getElementById('step_contents_blueprint');
+                      var card = style.cloneNode(true);
+                      card.setAttribute('id', 'Step_'+item.step_number);
+                      card.classList.remove("hide");
+                      card.getElementsByClassName('dynamic_step_name')[0].innerHTML = item.name;
+                      card.getElementsByClassName('dynamic-body-content')[0].innerHTML = item.body_content;
+                      template_step_contents_wrapper.appendChild(card);
+  
+                      // Anchor 
+                      var style = document.getElementById('step_anchor_blueprint');
+                      var card = style.cloneNode(true);
+                      card.setAttribute('id', '');
+                      card.classList.remove("hide");
+                      card.getElementsByClassName('step-number')[0].innerHTML = 'Step ' + item.step_number;
+                      card.getElementsByClassName('step-name')[0].innerHTML = item.name;
+                      card.href = '#'+'Step_'+item.step_number;
+                      template_step_anchor_wrapper.appendChild(card);
+  
+                      });          
+  
+            break;
+  
+            case "collection":
+              
+             
+              displayFeaturedVideo(data.youtube_id);
+  
+              // Select the 2 containers 
+              const collection_item_wrapper = document.getElementById("collection_item_wrapper");
+              
+              // Loop through each item
+              data._items.forEach(item => {
+  
+                      var style = document.getElementById('collection_item_blueprint');
+                      var card = style.cloneNode(true);
+                      card.setAttribute('id', '');
+                      card.classList.remove("hide");
+                      card.href="/collection-view?id=" + item._item_details.id + "&collectionid=" + data.id;
+                      card.getElementsByClassName('item-name')[0].innerHTML = item._item_details.name;
+                      card.getElementsByClassName('paragraph-featured')[0].innerHTML = item._item_details.sub_heading;
+                      collection_item_wrapper.appendChild(card);
+  
+  
+                      });          
+  
+            break;
+  
+            case "post":
+              
+              displayFeaturedVideo(data.youtube_id);
+  
+            break;  
+  
+        }
+  
+       
+    
+    
+      } else {
+          console.log('error')
+      }
+    
+    
+    }
+    
+    // Send request
+    request.send()
+    </script>
+  
