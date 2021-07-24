@@ -19,23 +19,24 @@
       
       console.log(data);
 
-      displayAllLists2(data.related);
+      displayAllListsx(data.related);
 
-      function displayAllLists2(guideList){
-
-            console.log(guideList);
+      function displayAllListsx(guideList){
+            
             guideList.forEach(item => {
-        
+            
+              console.log(item);
+            
             if(item.type == "tool"){
-                displayToolList(item[0]);
+                displayToolList(item);
             }
 
             if(item.type == "collection"){
-                displayCollectionList(item[0]);
+                displayCollectionList(item);
             }
 
             if(item.type == "step-by-step"){
-                displayStepByStepList(item[0]);
+                displayStepByStepList(item);
             }
         
         

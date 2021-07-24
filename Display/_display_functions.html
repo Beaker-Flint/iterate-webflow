@@ -18,10 +18,13 @@ function displayToolList(tool){
     
               // Place the card into the div "Cards-Container"
               template_grid_tools_wrapper.appendChild(card);
-        }
+            
+}
 
-        function displayCollectionList(collection){
+function displayCollectionList(collection){
+            
             console.log(collection);
+
             const template_grid_collection_wrapper = document.getElementById("template_grid_collection_wrapper");
  
                 const style = document.getElementById('collection_blueprint');
@@ -44,9 +47,9 @@ function displayToolList(tool){
                 // Place the card into the div "Cards-Container"
                 template_grid_collection_wrapper.appendChild(card);
 
-        }
+}
 
-        function displayStepByStepList(StepByStep){
+function displayStepByStepList(StepByStep){
             const template_grid_stepbystep_wrapper = document.getElementById("template_grid_stepbystep_wrapper");
            
               const style = document.getElementById('stepbystep_blueprint')
@@ -71,11 +74,10 @@ function displayToolList(tool){
               template_grid_stepbystep_wrapper.appendChild(card);
         
     
-
-        }
+}
     
         // Display Lists 
-        function displayAllLists(guideList){
+function displayAllLists(guideList){
 
             console.log(guideList);
             guideList.forEach(item => {
@@ -95,7 +97,7 @@ function displayToolList(tool){
         
             });
 
-        }
+}
 
 
 </script>
